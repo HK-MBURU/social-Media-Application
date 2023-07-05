@@ -2,49 +2,46 @@ const mssql = require("mssql");
 const config = require("../config/config");
 const bcrypt = require("bcrypt");
 
+const getUser = require("../utils/getUser");
+const { tokenGenerator, tokenVerifier } = require("../utils/tokens");
+
 async function login(req, res) {
-  const { phoneNumber, password } = req.body;
+  let token = req.headers["authorization"].split(" ")[1];
+  let user = await tokenVerifier(token);
 
-  if (!phoneNumber || !password) {
-    return res.status(400).json({ message: "Please fill all fields" });
-  }
-  //   console.log(res.json({ phone: phoneNumber }));
+  if (user.roles==="user") {
+    const { phoneNumber, password } = req.body;
 
-  try {
-    let sql = await mssql.connect(config);
-    if (sql.connected) {
-      let results = await sql
-        .request()
-        .input("phoneNumber", phoneNumber)
-        .execute("users.getUserByPhone");
+    if (!phoneNumber || !password) {
+      return res.status(400).json({ message: "Please fill all fields" });
+    }
 
-      let user = results.recordset[0];
+    try {
+      let user = await getUser(phoneNumber);
 
       if (user) {
         let passwordMatch = await bcrypt.compare(password, user.hashedPwd);
-        // console.log(passwordMatch);
+        if (passwordMatch) {
+          let token = await tokenGenerator({
+            phoneNumber: user.phoneNumber,
+            roles: "user",
+          });
 
-        passwordMatch
-          ? res.json({ success: true, message: "Logged in succesfully" })
-          : res.status(401).json({
-              success: false,
-              message: "wrong password",
-            });
+          res.json({ success: true, message: "Logged in succesfully", token });
+        } else {
+          res.status(401).json({ success: false, message: "wrong password" });
+        }
       } else {
-        res.status(404);
-        res.json({
+        res.status(404).json({
           success: false,
           message:
             "User with the given phone number does not exist please sign up",
         });
       }
-    } else {
-      res
-        .status(500)
-        .json({ success: false, message: "Internal server error" });
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error)
+  } else {
   }
 }
 module.exports = { login };
