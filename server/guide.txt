@@ -1,0 +1,5 @@
+//building api using node-express
+//create te server
+//routes
+//implement controllers //route handler
+//using environment variables
