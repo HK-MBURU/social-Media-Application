@@ -1,57 +1,39 @@
 const mssql = require("mssql");
 const config = require("../config/config");
 const bcrypt = require("bcrypt");
+const { newUserValidator } = require("../validataors/newUserValidator");
 
 async function signUp(req, res) {
-  const {
-    fullNames,
-    userName,
-    email,
-    password,
-    phoneNumber,
-    imgUrl,
-    bio,
-    location,
-    confirmPassword,
-  } = req.body;
-
-  if (
-    !fullNames ||
-    !userName ||
-    !email ||
-    !password ||
-    !phoneNumber ||
-    !imgUrl ||
-    !bio ||
-    !location ||
-    !confirmPassword
-  ) {
-    return res.status(400).json({ message: "All fields should be filled" });
-  }
-  let hashedPwd = await bcrypt.hash(password, 8);
+ 
+  const user=req.body
+  
+ 
   let registrationDate=new Date();
 
   try {
-    let hashedPwd = await bcrypt.hash(password, 8);
+    let {value}=newUserValidator(user)
+
+    let hashedPwd = await bcrypt.hash(user.password, 8);
     
     let sql = await mssql.connect(config);
 
     if (sql.connected) {
       const results = sql
         .request()
-        .input("fullNames", fullNames)
-        .input("userName", userName)
-        .input("email", email)
+        .input("fullNames", value.fullNames)
+        .input("userName", value.userName)
+        .input("email", value.email)
         .input("hashedPwd", hashedPwd)
-        .input("phoneNumber", phoneNumber)
-        .input("imgUrl", imgUrl)
-        .input("bio", bio)
-        .input("location", location)
+        .input("phoneNumber", value.phoneNumber)
+        .input("imgUrl", value.imgUrl)
+        .input("bio", value.bio)
+        .input("location", value.location)
         .input("registrationDate", registrationDate)
         .execute("users.InsertUserData");
       
 
-      res.json({
+      
+        res.json({
         success: true,
         message: "User Registered succesfully proceed to login",
       });
@@ -59,9 +41,7 @@ async function signUp(req, res) {
       res.status(500).send("Internal server error");
     }
   } catch (err) {
-    console.error(err);
-
-    res.status(500).send("Internal server error");
+        res.status(500).send(err.message);
   }
 }
 
