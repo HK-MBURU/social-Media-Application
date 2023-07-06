@@ -18,6 +18,8 @@ END;
 
 SELECT * FROM users.UsersData
 
+
+
 -- First, create a new table with the desired column name
 CREATE TABLE users.UsersData_new (
     id INT IDENTITY(1,1) PRIMARY KEY,
