@@ -8,6 +8,17 @@ const tokenGenerator=async(data)=>{
 function tokenVerifier(token){
     return jwt.verify(token,process.env.SECRET)
 }
+ function verifySignUpToken(req,res,next){
+    const token=req.params.token;
+    const generatedToken=crypto.randomBytes(48).toString('base64').replace(/\//g,'_').replace(/\+/g,'-')
 
+    const valid=token===generatedToken
 
-module.exports={tokenGenerator,tokenVerifier}
+    if(valid){
+        next()
+    }else{
+        res.status(401).send("Invalid token")
+    }
+ }
+
+module.exports={tokenGenerator,tokenVerifier,verifySignUpToken}

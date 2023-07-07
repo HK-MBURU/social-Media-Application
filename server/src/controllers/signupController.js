@@ -2,6 +2,8 @@ const mssql = require("mssql");
 const config = require("../config/config");
 const bcrypt = require("bcrypt");
 const { newUserValidator } = require("../validataors/newUserValidator");
+const sendMail=require('../utils/sendMail')
+const crypto=require('crypto')
 
 async function signUp(req, res) {
  
@@ -17,8 +19,12 @@ async function signUp(req, res) {
     
     let sql = await mssql.connect(config);
 
+    // generate token
+    const token=crypto.randomBytes(48).toString('base64').replace(/\//g,'_').replace(/\+/g,'-')
+    const expires=Date.now()+3600000
+
     if (sql.connected) {
-      const results = sql
+      const results =await sql
         .request()
         .input("fullNames", value.fullNames)
         .input("userName", value.userName)
@@ -29,13 +35,16 @@ async function signUp(req, res) {
         .input("bio", value.bio)
         .input("location", value.location)
         .input("registrationDate", registrationDate)
+        .input("token",token)
+        .input("expires",expires)
         .execute("users.InsertUserData");
-      
-
+        
+        // send email
+        await sendMail(value.email,token)
       
         res.json({
         success: true,
-        message: "User Registered succesfully proceed to login",
+        message: "A verification email has been sent toyour email address",
       });
     } else {
       res.status(500).send("Internal server error");
