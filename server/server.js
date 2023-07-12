@@ -8,18 +8,25 @@ app.use(express.json())
 
 const signUpRouter=require('./src/routes/signupRoute')
 const loginRouter=require('./src/routes/loginRoute')
-const postRouter=require('./src/routes/postsRoutes')
+const {getPostsRouter,likePostRouter,commentPostRouter,replyCommentRouter}=require('./src/routes/postsRoutes')
 const sendMailRoute = require('./src/routes/sendMailRoute')
 const verifySignupTokenRouter=require('./src/routes/verifySignupTokenRoute')
+const getUserProfileRoute=require('./src/routes/getUserProfileRoute')
+const updateProfileRoute=require('./src/routes/updateUserProfileRoute')
 
 app.get('/',(req,res)=>{
     res.send("Hello welcome to my fantastic social media application")
 })
 app.use(signUpRouter)
 app.use(loginRouter)
-app.use(postRouter)
+app.use(getPostsRouter)
 app.use(sendMailRoute)
 app.use(verifySignupTokenRouter)
+app.use(getUserProfileRoute)
+app.use(likePostRouter)
+app.use(commentPostRouter)
+app.use(replyCommentRouter)
+app.use(updateProfileRoute)
 
 
 app.use("*",(req,res,next)=>{
