@@ -162,3 +162,103 @@ BEGIN
   VALUES (@comment_id, @user_id, @content);
 END;
 
+CREATE PROCEDURE users.deleteUser
+    @userName VARCHAR(255)
+AS
+BEGIN
+    UPDATE users.UsersData
+    SET is_deleted = 1
+    WHERE userName = @userName;
+END;
+
+EXEC users.deleteUser @userName = 'johndoe';
+select* from users.UsersData
+
+CREATE PROCEDURE GetAllPosts
+AS
+BEGIN
+    SELECT *
+    FROM users.posts;
+END;
+
+select * from comments
+select * from likes
+select * from comment_replies
+
+
+
+CREATE PROCEDURE CheckUsernameExistence
+  @userName VARCHAR(255)
+AS
+BEGIN
+  SELECT COUNT(*) AS count
+  FROM users.UsersData
+  WHERE username = @userName;
+END;
+
+CREATE PROCEDURE GetUserByUsername
+  @userName VARCHAR(255)
+AS
+BEGIN
+  SELECT *
+  FROM users.UsersData
+  WHERE username = @userName;
+END;
+
+select * from users.followers
+
+CREATE PROCEDURE DeleteFollower
+  @follower_id INT,
+  @following_id INT
+AS
+BEGIN
+  DELETE FROM users.followers
+  WHERE follower_id = @follower_id AND following_id = @following_id;
+END;
+
+ALTER PROCEDURE [dbo].[sp_get_following]
+	@user_id INT
+AS
+BEGIN
+	SELECT u.fullNames, u.userName
+	FROM users.followers f
+	JOIN users.UsersData u ON f.following_id = u.id
+	WHERE f.follower_id = @user_id;
+END;
+
+select* from users.UsersData
+
+ALTER PROCEDURE [dbo].[UpdateUserProfile]
+  @userName VARCHAR(50),
+  @fullNames VARCHAR(100),
+  @email VARCHAR(100),
+  @imgUrl VARCHAR(255),
+  @bio VARCHAR(255)
+AS
+BEGIN
+  UPDATE users.UsersData
+  SET fullNames = @fullNames,
+      email = @email,
+      imgUrl = @imgUrl,
+      bio = @bio
+  WHERE userName = @userName;
+
+  SELECT @@ROWCOUNT AS affectedRows;
+END;
+
+CREATE PROCEDURE [dbo].[SearchUserByUsername]
+  @username VARCHAR(50)
+AS
+BEGIN
+  SELECT username, fullNames
+  FROM users.UsersData
+  WHERE username = @username;
+END;
+
+
+
+
+
+
+
+

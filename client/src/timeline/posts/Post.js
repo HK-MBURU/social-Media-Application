@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./Post.css"
 import { Avatar } from '@mui/material'
 import { Comment, Download, FavoriteBorder, MoreHoriz, Send, Share } from '@mui/icons-material'
 import hk from '../../images/hk1.jpg'
+import Comments from './comments/Comments'
 
 
-function Post({user,postImage,likes,timestamp}) {
+function Post({user,postImage,likes,timestamp,postId}) {
+
+    const [showComments,setShowComments]=useState(false)
+    const handleCommentClick=()=>{
+        setShowComments(!showComments)
+    }
+    
+    
     
     
   return (
@@ -24,9 +32,7 @@ function Post({user,postImage,likes,timestamp}) {
             <div className="post__footerIcons">
                 <div className="post_iconsMain">
                     <FavoriteBorder className='postIcon'/>
-                    <Comment className='postIcon'/>
-                    <input type="text" placeholder='type your comment here' className='comment'/>
-                    <Send className='postIcon sendBtn comment'/>
+                    <Comment className='postIcon' onClick={handleCommentClick }/>
 
                 </div>
                 <div className="post__iconSave">
@@ -36,6 +42,7 @@ function Post({user,postImage,likes,timestamp}) {
                 </div>
             </div>
             <p>liked by {likes} people</p>
+            {showComments && <Comments currentUserId="1"/>}
         </div>
     </div>
   )

@@ -70,6 +70,7 @@ CREATE TABLE users.followers(
 	FOREIGN KEY (following_id) REFERENCES users.UsersData(id),
 	PRIMARY KEY (follower_id,following_id)
 	)
+	select * from users.followers
 
 
 

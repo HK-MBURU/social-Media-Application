@@ -52,13 +52,3 @@
     border-radius: 8px;
     padding: 2px;
 }
-.sendBtn{
-    margin-left: -30px;
-}
-.comment{
-    display: none !important;
-}
-.comment.visible{
-    display: block;
-
-}

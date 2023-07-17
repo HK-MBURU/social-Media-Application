@@ -7,6 +7,7 @@ import hk2 from "./images/2.jpg";
 import hk3 from "./images/3.jpg";
 import hk4 from "./images/4.jpg";
 import { v4 as uuidv4 } from 'uuid';
+import Comments from "./posts/comments/Comments";
 
 function Timeline() {
   const [posts, setPosts] = useState([
@@ -88,8 +89,10 @@ function Timeline() {
             );
           })}
         </div>
+        
       </div>
       <div className="timeline__right">
+      
         <Suggestion />
       </div>
     </div>
