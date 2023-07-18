@@ -1,0 +1,25 @@
+.notifications{
+    background-color: black;
+    color: white;
+   
+    border: 1px solid white;
+   
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+
+}
+.notificationContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid white;
+    /* margin-top: 50px; */
+    width: 500px;
+    text-align: center;
+    margin: auto;
+
+}

@@ -47,6 +47,8 @@ app.get('/',(req,res)=>{
 
 app.use(postRouter)
 app.use(profile)
+// let phone=request.session.user
+// console.log(phone);
 app.use(user)
 
 

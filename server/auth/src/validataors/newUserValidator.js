@@ -10,6 +10,8 @@ function newUserValidator(body){
         }else{
             return user
         }
+    
+        
           
     
 }

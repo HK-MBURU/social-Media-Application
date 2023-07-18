@@ -2,7 +2,8 @@ const mssql= require("mssql")
 const config=require("../../config/config")
 
 async function updateProfile(req,res){
-    // const user=req.body
+    let userPhone=request.session.user
+    
     let {userName,fullNames,email,imgUrl,bio}=req.body
 
     
@@ -10,6 +11,7 @@ async function updateProfile(req,res){
         let sql=await mssql.connect(config)
     if(sql.connected){
         let results=await sql.query`EXEC UpdateUserProfile
+        @phoneNumber=${userPhone}
         @userName=${userName},
         @fullNames=${fullNames},
         @email=${email},

@@ -1,0 +1,47 @@
+.follower{
+    background-color: black;
+    color: white;
+    width: 500px;
+    margin: auto;
+    text-align: center;
+    /* padding-top: 35px; */
+}
+.follower__title{
+    color: grey;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.username__left{
+    display: flex;
+    align-items: center;
+}
+.username__info{
+    display: flex;
+    flex-direction: column;
+}
+.relation{
+    color: grey;
+    font-size: 12px;
+}
+.follower__username{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+.chat_button{
+    color: #0005f6;
+    font-weight: bold;
+    background: 0;
+    border: 0;
+}
+.chat_button:hover{
+    color: white;
+    cursor: pointer;
+}
+.username{
+    font-weight: 600;
+    font-size: 14px ;
+}
+.avatar{
+    margin-right: 10px;
+}

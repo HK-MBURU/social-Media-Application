@@ -13,63 +13,71 @@ import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatIcon from "@mui/icons-material/Chat";
 import MenuIcon from "@mui/icons-material/Menu";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Link } from "react-router-dom";
 
 function Sidenav() {
   return (
     <div className="sidenav">
       <img className="sidenav__logo" src={logo} alt="" />
       <div className="sidenav__buttons">
-      <button className="sidenav__button">
-        <MenuIcon />
-        <span>Menu</span>
-      </button>
-      <button className="sidenav__button">
-        <HomeIcon />
-        <span>Home</span>
-      </button>
-      <button className="sidenav__button">
-        <SearchIcon />
-        <span>Search</span>
-      </button>
-      <button className="sidenav__button">
-        <ChatIcon />
-        <span>Chat</span>
-      </button>
-      <button className="sidenav__button">
-        <PeopleIcon />
-        <span>People</span>
-      </button>
-      <button className="sidenav__button">
-        <SettingsIcon />
-        <span>Setting</span>
-      </button>
-      <button className="sidenav__button">
-        <NotificationsIcon />
-        <span>Notifications</span>
-      </button>
-      <button className="sidenav__button">
-        <PostAddIcon />
-        <span>Post</span>
-      </button>
-      <button className="sidenav__button">
-        <AccountBoxIcon />
-        <span>Profile</span>
-      </button>
-      <button className="sidenav__button">
-        <LogoutIcon />
-        <span>Logout</span>
-      </button>
-      
+        <button className="sidenav__button">
+          <MenuIcon />
+          <span>Menu</span>
+        </button>
+        <button className="sidenav__button">
+          <HomeIcon />
+          <span>Home</span>
+        </button>
+        <button className="sidenav__button">
+          <SearchIcon />
+          <span>Search</span>
+        </button>
+        <button className="sidenav__button">
+          <ChatIcon />
+          <span>Chat</span>
+        </button>
+        <Link to="/followers">
+          <button className="sidenav__button">
+            <PeopleIcon />
+            <span>Followers</span>
+          </button>
+        </Link>
+        <Link to="/settings">
+          <button className="sidenav__button">
+            <SettingsIcon />
+            <span>Setting</span>
+          </button>
+        </Link>
+        <Link to="/notifications">
+          <button className="sidenav__button">
+            <NotificationsIcon />
+            <span className="count">1</span>
+            <span>Notifications</span>
+          </button>
+        </Link>
+        <button className="sidenav__button">
+          <PostAddIcon />
+          <span>Post</span>
+        </button>
 
+        <Link to="/profile">
+          <button className="sidenav__button">
+            <AccountBoxIcon />
+            <span>Profile</span>
+          </button>
+        </Link>
+        <button className="sidenav__button">
+          <LogoutIcon />
+          <span>Logout</span>
+        </button>
       </div>
       <div className="sidenav__more">
-      <button className="sidenav__button">
-        <ExpandMoreIcon />
-        <span>More</span>
-      </button>
+        <button className="sidenav__button">
+          <ExpandMoreIcon />
+          <span>More</span>
+        </button>
       </div>
-      
     </div>
   );
 }

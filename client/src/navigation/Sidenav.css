@@ -40,3 +40,6 @@
     position: fixed;
     bottom: 3px;
 }
+a{
+    text-decoration: none;
+}

@@ -255,10 +255,69 @@ BEGIN
   WHERE username = @username;
 END;
 
+-- Stored procedure for changing password
+CREATE PROCEDURE [dbo].[ChangePassword]
+  @userId INT,
+  @newPassword VARCHAR(255)
+AS
+BEGIN
+  UPDATE users.UsersData
+  SET hashedPwd = @newPassword
+  WHERE id = @userId;
+END;
+GO
+
+CREATE PROCEDURE [dbo].[GetUserPasswordById]
+  @userId INT
+AS
+BEGIN
+  SELECT hashedPwd
+  FROM users.UsersData
+  WHERE id = @userId;
+END;
+
+-- Step 1: Alter table to add the "username" field
+ALTER TABLE comments
+ADD username VARCHAR(50) NOT NULL;
+
+-- Step 2: Update the foreign key constraint to reference the "username" field
+ALTER TABLE comments
+DROP CONSTRAINT FK_comments_user_id;
+
+ALTER TABLE comments
+ADD CONSTRAINT FK_comments_username
+FOREIGN KEY (username) REFERENCES users.UsersData(username);
+
+-- Step 1: Add a nullable column for the username
+ALTER TABLE comments
+ADD username VARCHAR(50) NULL;
+
+--Step 2: Update the column with the appropriate username values
+UPDATE comments
+SET username = (SELECT username FROM users.UsersData WHERE id = comments.user_id);
+
+-- Step 3: Modify the column to be non-nullable
+ALTER TABLE comments
+ALTER COLUMN username VARCHAR(50) NOT NULL;
+
+ALTER TABLE comments
+DROP CONSTRAINT FK_comments_user_id;
+
+ALTER TABLE comments
+ADD CONSTRAINT FK_comments_username
+FOREIGN KEY (username) REFERENCES users.UsersData(username);
+
+
+select * from comments
+
+select * from dbo.notifications
 
 
 
 
 
 
+
+
+select * from users.UsersData
 

@@ -8,6 +8,7 @@ import hk3 from "./images/3.jpg";
 import hk4 from "./images/4.jpg";
 import { v4 as uuidv4 } from 'uuid';
 import Comments from "./posts/comments/Comments";
+import Header from "../header/Header";
 
 function Timeline() {
   const [posts, setPosts] = useState([
@@ -75,6 +76,8 @@ function Timeline() {
   ]);
   return (
     <div className="timeline">
+      <div className="head"> <Header/> </div>
+      
       <div className="timeline__left">
         <div className="timeline__posts">
           {posts.map((post) => {

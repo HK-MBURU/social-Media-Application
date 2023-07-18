@@ -1,0 +1,43 @@
+.profile{
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+
+}
+.header{
+  z-index: 1;
+}
+.body{
+  z-index: 2;
+  margin: 50px;
+
+}
+.profile-pic-col{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.profilePic {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+  }
+  .profileContainer {
+    display: flex;
+    margin: 20px;
+  }
+  @media only screen and (max-width: 768px) {
+    .profileContainer {
+      flex-direction: column-reverse;
+    }
+  }
+
+  .submit-btn{
+    margin-top: 30px;
+    width: 100%;
+    
+  }

@@ -1,6 +1,7 @@
 .post{
     width: 550px;
     margin: 30px 40px 50px 40px;
+    top: 50px;
 }
 .post__header{
     display: flex;

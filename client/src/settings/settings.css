@@ -1,0 +1,27 @@
+body{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.settings{
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+.settings-body{
+    margin-top: 70px;
+    padding: 30px;
+    border: white solid 2px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+.settingsNav{
+    flex: 0.3;
+    border: 1px solid white;
+}
+.settingsDetails{
+    flex: 0.7;
+    border: 1px solid white;
+}

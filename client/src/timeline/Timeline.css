@@ -3,8 +3,14 @@
     flex-direction: row;
 }
 .timeline__left{
+    margin-top: 50px;
     flex: 0.7;
 }
 .timeline__right{
+    margin-top: 50px;
     flex: 0.3;
+}
+.head{
+    margin-bottom: 30px;
+    z-index: 1;
 }
