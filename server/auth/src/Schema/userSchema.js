@@ -6,9 +6,9 @@ const newUserSchema = joi.object({
   email: joi.string().required().min(8).max(50),
   password: joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')),
   phoneNumber: joi.string().required().min(10).max(16),
-  imgUrl: joi.string().required(),
-  bio: joi.string().required().min(10),
-  location: joi.string().required().min(3).max(50),
+  imgUrl: joi.string(),
+  bio: joi.string().min(10),
+  location: joi.string().min(3).max(50),
   confirmPassword: joi.ref('password')
 }).with('password','confirmPassword')
 
