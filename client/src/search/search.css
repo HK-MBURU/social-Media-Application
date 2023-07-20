@@ -1,0 +1,19 @@
+.input-section input{
+    background: none;
+    width: 540px;
+    color: rgb(106, 105, 110);
+    top: 20%;
+    border: none;
+    outline: none;
+    margin-left: 5px;
+}
+.search-section{
+    display: flex;
+    flex-direction: row;
+}
+.search-icon{
+    margin-left: -30px;
+    margin-right: 0px;
+    right: 0%;
+    width: 30px;
+}

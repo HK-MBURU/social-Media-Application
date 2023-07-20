@@ -31,8 +31,8 @@ function Post({user,postImage,likes,timestamp,postId}) {
         <div className="post__footer">
             <div className="post__footerIcons">
                 <div className="post_iconsMain">
-                    <FavoriteBorder className='postIcon'/>
-                    <Comment className='postIcon' onClick={handleCommentClick }/>
+                    <FavoriteBorder className='postIcon like'/>
+                    <Comment className='postIcon commentBtn' onClick={handleCommentClick }/>
 
                 </div>
                 <div className="post__iconSave">

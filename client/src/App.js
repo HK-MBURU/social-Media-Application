@@ -3,13 +3,16 @@ import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import Login from './auth/Login'
 import Signup from './auth/Signup'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Row, Col, Button, Form } from "react-bootstrap";
+// import { Row, Col, Button, Form } from "react-bootstrap";
 import Homepage from './Homepage'
 import './App.css'
 import Profile from './user/Profile'
 import Settings from './settings/Settings'
 import Notifications from './notifications/Notifications'
 import Followers from './followers/Followers'
+import UpdateProfile from './user/UpdateProfile'
+import ConfirmProfileUpdate from './user/ConfirmProfileUpdate'
+
 
 
 
@@ -24,6 +27,8 @@ function App() {
       <Route path='/settings' element={<Settings/>}></Route>
       <Route path='/notifications' element={<Notifications/>}></Route>
       <Route path='/followers' element={<Followers/>}></Route>
+      <Route path='/updateProfile' element={<UpdateProfile/>}></Route>
+      <Route path='/confirmProfileUpdate' element={<ConfirmProfileUpdate/>}></Route>
 
     </Routes>
     

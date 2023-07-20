@@ -6,9 +6,10 @@ import hk1 from "./images/1.jpg";
 import hk2 from "./images/2.jpg";
 import hk3 from "./images/3.jpg";
 import hk4 from "./images/4.jpg";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import Comments from "./posts/comments/Comments";
 import Header from "../header/Header";
+import Search from "../search/Search";
 
 function Timeline() {
   const [posts, setPosts] = useState([
@@ -72,18 +73,25 @@ function Timeline() {
       likes: 8,
       timestamp: "12h",
     },
-   
   ]);
   return (
     <div className="timeline">
-      <div className="head"> <Header/> </div>
-      
+      <div className="headers">
+        <div className="head">
+          <Header />
+        </div>
+        <div className="search">
+          <Search />
+        </div>
+      </div>
+
       <div className="timeline__left">
+        
         <div className="timeline__posts">
           {posts.map((post) => {
             return (
               <Post
-              key={uuidv4()}
+                key={uuidv4()}
                 user={post.user}
                 postImage={post.postImage}
                 likes={post.likes}
@@ -92,10 +100,8 @@ function Timeline() {
             );
           })}
         </div>
-        
       </div>
       <div className="timeline__right">
-      
         <Suggestion />
       </div>
     </div>

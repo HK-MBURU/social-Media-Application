@@ -42,6 +42,15 @@
     margin: 7px;
     font-size: 38px;
 }
+.like:hover{
+    color: red;
+    font-size: 23px;
+
+}
+.commentBtn:hover{
+    color: rgb(83, 15, 241);
+
+}
 .post_iconsMain >input{
     height: 100px;
     width: 500px;

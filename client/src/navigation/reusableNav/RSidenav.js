@@ -54,7 +54,7 @@ function RSidenav() {
         <Link to="/notifications">
         <button className="sidenav_button">
           <NotificationsIcon />
-          <span className="countnt">1</span>
+          <span className="count">1</span>
           <span>Notifications</span>
         </button>
         </Link>

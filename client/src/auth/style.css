@@ -1,5 +1,8 @@
 .form_container{
     width: 30%;
+    /* background-color: black;*/
+    color: white; 
+    
 }
 @media screen and(max-with:1000px) {
     .form_container{
@@ -7,6 +10,9 @@
     }
     
 }
+/* .signup{
+    padding-top: 30px;
+} */
 @media screen and(max-with:700px) {
     .form_container{
         width: 65%;
