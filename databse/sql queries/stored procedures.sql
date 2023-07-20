@@ -321,3 +321,15 @@ select * from dbo.notifications
 
 select * from users.UsersData
 
+ALTER TABLE users.UsersData
+ALTER COLUMN location VARCHAR(50) NULL;
+
+ALTER TABLE users.UsersData
+ALTER COLUMN imgUrl VARCHAR(200) NULL;
+
+ALTER TABLE users.UsersData
+ALTER COLUMN bio VARCHAR(MAX) NULL;
+
+select * from users.UsersData
+
+

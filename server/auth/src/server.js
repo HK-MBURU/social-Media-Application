@@ -1,6 +1,7 @@
 const express = require("express");
 const sql = require("mssql");
 const config = require("./config/config");
+const cors=require("cors")
 
 require("dotenv").config();
 const crypto = require("crypto");
@@ -10,24 +11,41 @@ const RedisStore = require("connect-redis").default;
 const { v4 } = require("uuid");
 
 const app = express();
+app.use(cors(
+  {
+    origin:"http://localhost:3000",
+    credentials:true,
+    optionsSuccessStatus:200,
+  }
+))
 app.use(express.json());
+
+
 async function startApp() {
+  //get pool
   try {
     const pool = await sql.connect(config);
     console.log("App connected to db");
 
-    app.locals.pool = pool;
+    // create reddis client
+    // app.locals.pool = pool;
     const redisClient = createClient();
     redisClient.connect();
+
     redisClient.on("connect", () => {
       console.log("redisConnected");
     });
+
+    // create reddis store  
 
     const redis_store = new RedisStore({ client: redisClient, prefix: "" });
     const sessionSecret = process.env.SECRET;
 
     const oneDay = 60 * 60 * 1000 * 24;
-    app.use((req,res,next)=>{req.pool=pool;next()})
+    app.use((req,res,next)=>{
+      req.pool=pool;
+      next()
+    })
     app.use(
       session({
         store: redis_store,
@@ -61,6 +79,7 @@ async function startApp() {
     const loginRouter = require("./routes/loginRoute");
     const sendMailRoute = require("./routes/sendMailRoute");
     const verifySignupTokenRouter = require("./routes/verifySignupTokenRoute");
+    
     app.get("/", (req, res) => {
       console.log(req.session);
       const authorized = req.session?.authorized;

@@ -6,7 +6,6 @@ const crypto = require("crypto");
 const {app}=require("../server")
 
 async function signUp(req, res) {
-  console.log("token problem");
 
   const user = req.body;
 
@@ -17,10 +16,8 @@ async function signUp(req, res) {
 
     let hashedPwd = await bcrypt.hash(user.password, 8);
 
-    const {pool}=app.locals.pool
+    let pool=req.pool
 
-
-    // generate token
     const token = crypto
       .randomBytes(48)
       .toString("base64")
@@ -47,6 +44,9 @@ async function signUp(req, res) {
       const rowsAffected = results.rowsAffected[0];
 
       // send email
+      req.session.authorize=true
+      let phoneNumber=value.phoneNumber
+      req.session.user= phoneNumber
       await sendMail(value.email, token);
 
       res.json({
@@ -54,7 +54,7 @@ async function signUp(req, res) {
         message: "A verification email has been sent toyour email address",
       });
     } else {
-      res.status(500).send("Internal server error");
+      res.status(500).send("Internal server error not connecting to db");
     }
   } catch (err) {
     res.status(500).send(err.message);
