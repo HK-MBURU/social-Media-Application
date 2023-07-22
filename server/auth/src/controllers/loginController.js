@@ -37,6 +37,8 @@ async function login(req, res) {
           req.session.authorized=true;
           
           req.session.user=phoneNumber
+          console.log(req.session.user);
+          
           res.json({ success: true, message: "Logged in succesfully"});
         } else {
           res.status(401).json({ success: false, message: "wrong password" });

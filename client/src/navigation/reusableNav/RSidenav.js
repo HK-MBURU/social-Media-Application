@@ -15,8 +15,16 @@ import ChatIcon from "@mui/icons-material/Chat";
 import MenuIcon from "@mui/icons-material/Menu";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
+import handleLogOut from "../../logout/Logout";
+import { useNavigate } from 'react-router-dom'
+
 
 function RSidenav() {
+  let navigate=useNavigate()
+  function logout(){
+      handleLogOut()
+      navigate("/")
+    }
   return (
     <div className="topnav">
       <img className="sidenav_logo" src={logo} alt="" />
@@ -72,7 +80,7 @@ function RSidenav() {
           </button>
         </Link>
         <Link>
-        <button className="sidenav_button">
+        <button className="sidenav_button" onClick={logout}>
           <LogoutIcon />
           <span>Logout</span>
         </button>

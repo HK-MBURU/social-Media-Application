@@ -7,3 +7,9 @@ body{
     margin: 10px;
     font-size: 60px;
 }
+.icon-btn:hover{
+    cursor: pointer;
+    color: rgb(42, 130, 165);
+    font-size: 20px;
+
+}

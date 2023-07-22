@@ -2,6 +2,7 @@ const express = require("express");
 const sql = require("mssql");
 const config = require("./config/config");
 const cors=require("cors")
+const cookieParser=require('cookie-parser')
 
 require("dotenv").config();
 const crypto = require("crypto");
@@ -19,6 +20,11 @@ app.use(cors(
   }
 ))
 app.use(express.json());
+app.use(function(req,res,next){
+  res.header("Access-Control-Allow-Origin","*")
+  res.header("Access-Control-Allow-Headers","Origin, X-Requested-With,Content-Type,Accept")
+  next()
+})
 
 
 async function startApp() {
@@ -56,10 +62,9 @@ async function startApp() {
         rolling:true,
         unset:'destroy',
         cookie: {
-          httpOnly: false,
+          httpOnly: true,
           secure: false,
           maxAge: oneDay,
-          sameSite: "strict",
           domain:'localhost'
         },
       })

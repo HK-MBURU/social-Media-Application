@@ -5,6 +5,8 @@ import { Form, Button, Col, Dropdown, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import FlagSelect from "react-flags-select";
 // import "react-flag-select/css/react-flags-select.css"
+import user from "./u.png";
+import apiClient from "../apiClient";
 
 function UpdateProfile() {
   const [userName, setUserName] = useState("");
@@ -15,28 +17,40 @@ function UpdateProfile() {
   const [profilePicture, setProfilePicture] = useState(null);
   const navigate = useNavigate();
 
-  const fileInputRef=React.createRef()
+  // error 
+  const [error, setError] = useState(null);
+  const[successMessage,setSuccessMessage]=useState("")
+  // const handleChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
 
-  const preset_key=""
-  const cloud_name=""
-  const [image,setImage]=useState()
+  const fileInputRef = React.createRef();
 
-  const handleFileUpload = (e) => {
+  const preset_key = "amodduyt";
+  const cloud_name = "dkpnavrhu";
+  const [image, setImage] = useState();
+
+  const  handleFileUpload = (e) => {
     const file = e.target.files[0];
-    const formData=new FormData()
-    formData.append('file',file)
-    formData.append("upload_preset",preset_key)
-    axios.post(``,formData)
-    .then(res=>console.log(res))
-    .catch(err=>console.log(err))
-    // setProfilePicture(file);
-    fileInputRef.current.value=""
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", preset_key);
+    axios
+      .post(
+        `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+        formData
+      )
+      .then((res) => setImage(res.data.secure_url))
+      .catch((err) => console.log(err));
+    setProfilePicture(file);
+    e.target.value = null;
   };
 
   useEffect(() => {
     const fetchCountries = async () => {
       try {
         const response = await axios.get("https://restcountries.com/v3.1/all");
+        console.log(response.data[5].name.common);
 
         const sortedCountries = response.data.sort((a, b) => {
           const countryA = a.name.common.toUpperCase();
@@ -56,16 +70,24 @@ function UpdateProfile() {
     };
     fetchCountries();
   }, []);
-  const handleSubmit = (e) => {
+  let imgUrl=image
+  const formData = {
+    bio,
+    location: selectedCountry,
+    imgUrl,
+  };
+  console.log(formData);
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const formData = {
-        userName,
-        bio,
-        location: selectedCountry.name.common,
-        profilePicture,
-      };
+      await updateUserDetails()
+      setSuccessMessage("Your details were updated succesfully")
+      
+     
+      // console.log(selectedCountry);
       setUserName("");
       setBio("");
       setLocation("");
@@ -79,20 +101,30 @@ function UpdateProfile() {
       console.error("Error updating profile:", error);
     }
   };
-
-  console.log("Updated Profile:", {
-    userName,
-    bio,
-    location,
-    selectedCountry,
-  });
+ const updateUserDetails=async()=>{
+  try {
+    const response=await apiClient.put("http://localhost:5050/updateProfile",formData)
+    console.log(response.data);
+  } catch (error) {
+    throw(error)
+    
+  }
+ }
 
   return (
     <Row className="mt-5 wholeForm">
       <Col md={{ span: 6, offset: 3 }}>
         <Form onSubmit={handleSubmit} className="custom-form">
-          <h3>Update Profile</h3>
-          <Form.Group className="mb-3">
+          <div className="pre-form">
+            <h3>Update Profile</h3>
+            <img
+              src={image || user}
+              className=" rounded-circle uploadedImage"
+              alt="profile image"
+            />
+          </div>
+
+          {/* <Form.Group className="mb-3">
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
@@ -100,7 +132,7 @@ function UpdateProfile() {
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
             ></Form.Control>
-          </Form.Group>
+          </Form.Group> */}
 
           <Form.Group className="mb-3">
             <Form.Label>Bio</Form.Label>
@@ -126,14 +158,13 @@ function UpdateProfile() {
               onSelect={(val) => setSelectedCountry(val)}
               placeholder="Select your country"
             />
-            
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Profile Picture</Form.Label>
 
             <Form.Control
-            ref={fileInputRef}
+              ref={fileInputRef}
               type="file"
               placeholder="Enter your user name"
               onChange={handleFileUpload}

@@ -7,7 +7,13 @@ function Search() {
     <div>
         <div className="search-section">
             <div className="input-section">
-                <input type="text" placeholder='Search' />
+                <input type="text" placeholder='Search ....' className='searchb' />
+                <ul>
+                  <li className="listItem">John</li>
+                  <li className="listItem">Jane</li>
+                  <li className="listItem">James</li>
+                  <li className="listItem">Mike</li>
+                </ul>
             </div>
             <div className="search-icon">
                 <SearchIcon/>             

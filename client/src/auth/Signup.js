@@ -22,7 +22,6 @@ function Signup() {
     e.preventDefault();
     try {
       await signUpUser();
-      localStorage.setItem("isSignedUp",true)
       setSuccessMessage("Sign up succesful proceed to login")
       navigate("/confirmProfileUpdate");
     } catch (error) {

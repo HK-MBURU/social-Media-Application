@@ -14,9 +14,17 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatIcon from "@mui/icons-material/Chat";
 import MenuIcon from "@mui/icons-material/Menu";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import handleLogOut from "../logout/Logout";
+
 
 function Sidenav() {
+  let navigate=useNavigate()
+  function logout(){
+    handleLogOut()
+    navigate("/")
+  }
+
   return (
     <div className="sidenav">
       <img className="sidenav__logo" src={logo} alt="" />
@@ -67,7 +75,7 @@ function Sidenav() {
             <span>Profile</span>
           </button>
         </Link>
-        <button className="sidenav__button">
+        <button className="sidenav__button" onClick={logout}>
           <LogoutIcon />
           <span>Logout</span>
         </button>

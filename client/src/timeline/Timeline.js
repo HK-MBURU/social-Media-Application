@@ -60,13 +60,6 @@ function Timeline() {
       timestamp: "1d",
     },
     {
-      user: "Sara Thompson",
-      postImage:
-        "https://cdn.pixabay.com/photo/2015/02/24/15/41/dog-649665__480.jpg",
-      likes: 56,
-      timestamp: "1w",
-    },
-    {
       user: "Mike Roberts",
       postImage:
         "https://cdn.pixabay.com/photo/2017/05/08/13/15/spring-bird-2295436__480.jpg",

@@ -8,3 +8,11 @@
   max-height: 200px; 
   overflow-y: auto;
 }
+.uploadedImage{
+    width: 70px;
+    height: 70px;
+}
+.pre-form{
+    display: flex;
+    justify-content: space-between;
+}
