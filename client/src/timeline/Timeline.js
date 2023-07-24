@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Timeline.css";
 import Suggestion from "./Suggestion";
 import Post from "./posts/Post";
@@ -10,68 +10,28 @@ import { v4 as uuidv4 } from "uuid";
 import Comments from "./posts/comments/Comments";
 import Header from "../header/Header";
 import Search from "../search/Search";
+import axios from "axios";
+// import { post } from "../../../server/auth/src/routes/signupRoute";
 
 function Timeline() {
-  const [posts, setPosts] = useState([
-    {
-      user: "hk mburu",
-      postImage:
-        "https://cdn.pixabay.com/photo/2015/04/23/22/00/trec-736885__480.jpg",
-      likes: 12,
-      timestamp: "2d",
-    },
-    {
-      user: "isa investor",
-      postImage: hk2,
-      likes: 172,
-      timestamp: "9d",
-    },
-    {
-      user: "Dk kiarii",
-      postImage: hk3,
-      likes: 142,
-      timestamp: "28 d",
-    },
-    {
-      user: "Gidis Gideon",
-      postImage: hk4,
-      likes: 132,
-      timestamp: "8d",
-    },
-    {
-      user: "hk mburu",
-      postImage:
-        "https://cdn.pixabay.com/photo/2015/04/23/22/00/trec-736885__480.jpg",
-      likes: 12,
-      timestamp: "2d",
-    },
-    {
-      user: "Emma Johnson",
-      postImage:
-        "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__480.jpg",
-      likes: 34,
-      timestamp: "6h",
-    },
-    {
-      user: "John Smith",
-      postImage:
-        "https://cdn.pixabay.com/photo/2016/11/29/04/19/beach-1867285__480.jpg",
-      likes: 19,
-      timestamp: "1d",
-    },
-    {
-      user: "Mike Roberts",
-      postImage:
-        "https://cdn.pixabay.com/photo/2017/05/08/13/15/spring-bird-2295436__480.jpg",
-      likes: 8,
-      timestamp: "12h",
-    },
-  ]);
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.post("http://localhost:5050/getPosts");
+        console.log(response.data);
+        setPosts(response.data.results);
+      } catch (error) {
+        console.error("error fetching posts :", error);
+      }
+    };
+    fetchPosts();
+  }, []);
   return (
     <div className="timeline">
       <div className="headers">
-        <div className="head">
-          <Header />
+        <div>
+          
         </div>
         <div className="search">
           <Search />
@@ -79,16 +39,16 @@ function Timeline() {
       </div>
 
       <div className="timeline__left">
-        
         <div className="timeline__posts">
           {posts.map((post) => {
             return (
               <Post
                 key={uuidv4()}
-                user={post.user}
-                postImage={post.postImage}
+                user={post.userName}
+                postImage={post.image_url}
                 likes={post.likes}
-                timestamp={post.timestamp}
+                timestamp={post.created_at}
+                content={post.content}
               />
             );
           })}

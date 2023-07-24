@@ -3,12 +3,13 @@ const config=require("../../config/config")
 
 
 async function getUserProfile(req,res){
-    const user=req.body
-    let userName=user.userName
+    const{session}=req
+    let phoneNumber=session.user
+    console.log(phoneNumber);
     // console.log(userName);
     let sql= await mssql.connect(config)
     if (sql.connected) {
-        let results= await sql.query`EXEC GetUserProfile @userName=${userName}`
+        let results= await sql.query`EXEC GetUserProfile @phoneNumber=${phoneNumber}`
 
         let userProfile =results.recordset
         // let userProfile=JSON.stringify(results.recordset)

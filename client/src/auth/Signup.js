@@ -41,7 +41,7 @@ function Signup() {
     try {
       const response = await axios.post(
         "http://localhost:4040/signup",
-        formData
+        formData,{withCredentials:true}
       );
       console.log(response.data);
     } catch (error) {

@@ -34,7 +34,9 @@ async function login(req, res) {
       if (user) {
         let passwordMatch = await bcrypt.compare(password, user.hashedPwd);
         if (passwordMatch) {
+          console.log(req.session);
           req.session.authorized=true;
+          // req.session.isAuth=true
           
           req.session.user=phoneNumber
           console.log(req.session.user);

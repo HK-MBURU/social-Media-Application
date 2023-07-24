@@ -332,4 +332,36 @@ ALTER COLUMN bio VARCHAR(MAX) NULL;
 
 select * from users.UsersData
 
+USE [socialMediaDB]
+GO
+
+CREATE OR ALTER PROCEDURE users.CreatePost
+    @user_id INT,
+    @content VARCHAR(255),
+    @image_url VARCHAR(255),
+    @video_url VARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO users.posts (user_id, content, image_url, video_url)
+    VALUES (@user_id, @content, @image_url, @video_url);
+END;
+
+USE [socialMediaDB]
+GO
+
+CREATE OR ALTER PROCEDURE users.GetUserIdByPhoneNumber
+    @phoneNumber VARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT id
+    FROM users.UsersData
+    WHERE phoneNumber = @phoneNumber;
+END;
+
+select * from users.posts
+
 

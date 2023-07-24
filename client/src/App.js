@@ -12,11 +12,17 @@ import Notifications from './notifications/Notifications'
 import Followers from './followers/Followers'
 import UpdateProfile from './user/UpdateProfile'
 import ConfirmProfileUpdate from './user/ConfirmProfileUpdate'
+import axios from 'axios'
+import CreatePost from './timeline/posts/CreatePost'
+
+
 
 
 
 
 function App() {
+  axios.defaults.baseURL='http://localhost:5050'
+  axios.defaults.withCredentials=true
   return (
     <BrowserRouter>
     <Routes>
@@ -29,6 +35,7 @@ function App() {
       <Route path='/followers' element={<Followers/>}></Route>
       <Route path='/updateProfile' element={<UpdateProfile/>}></Route>
       <Route path='/confirmProfileUpdate' element={<ConfirmProfileUpdate/>}></Route>
+      <Route path='/createPost' element={<CreatePost/>}></Route>
 
     </Routes>
     

@@ -20,9 +20,7 @@ function UpdateProfile() {
   // error 
   const [error, setError] = useState(null);
   const[successMessage,setSuccessMessage]=useState("")
-  // const handleChange = (e) => {
-  //   setFormData({ ...formData, [e.target.name]: e.target.value });
-  // };
+  
 
   const fileInputRef = React.createRef();
 
@@ -103,7 +101,7 @@ function UpdateProfile() {
   };
  const updateUserDetails=async()=>{
   try {
-    const response=await apiClient.put("http://localhost:5050/updateProfile",formData)
+    const response=await axios.put("http://localhost:5050/updateProfile",formData,{withCredentials:true},)
     console.log(response.data);
   } catch (error) {
     throw(error)
@@ -124,15 +122,7 @@ function UpdateProfile() {
             />
           </div>
 
-          {/* <Form.Group className="mb-3">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your user name"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-            ></Form.Control>
-          </Form.Group> */}
+        
 
           <Form.Group className="mb-3">
             <Form.Label>Bio</Form.Label>

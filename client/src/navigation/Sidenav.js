@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Sidenav.css";
 import logo from "../images/hk.jpg";
 import HomeIcon from "@mui/icons-material/Home";
@@ -16,9 +16,22 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link, useNavigate } from "react-router-dom";
 import handleLogOut from "../logout/Logout";
+import PopUpModal from "../timeline/posts/PopUpModal";
+
+
+
 
 
 function Sidenav() {
+  const [showModal,setShowModal]=useState(false)
+
+  const handleOpenModal=()=>{
+    setShowModal(true)
+  }
+
+  const handleCloseModal=()=>{
+    setShowModal(false)
+  }
   let navigate=useNavigate()
   function logout(){
     handleLogOut()
@@ -63,11 +76,15 @@ function Sidenav() {
             <span className="count">1</span>
             <span>Notifications</span>
           </button>
-        </Link>
-        <button className="sidenav__button">
+        </Link >
+        
+        <button className="sidenav__button" onClick={handleOpenModal}>
           <PostAddIcon />
           <span>Post</span>
         </button>
+        <PopUpModal open={showModal} onClose={handleCloseModal}/>
+       
+        
 
         <Link to="/profile">
           <button className="sidenav__button">

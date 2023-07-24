@@ -39,7 +39,7 @@ function Login() {
     }
     async function loginUser(){
         try {
-            const response=await axios.post("http://localhost:4040/login",formData)
+            const response=await axios.post("http://localhost:4040/login",formData,{withCredentials:true})
             console.log(response.data);
         } catch (error) {
             throw error

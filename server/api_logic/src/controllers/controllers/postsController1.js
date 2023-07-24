@@ -2,6 +2,58 @@ const mssql=require('mssql')
 const config=require('../../config/config')
 const { request } = require('express')
 
+async function createPost(req,res){
+    const{session}=req
+    const {  content, image_url, video_url } = req.body;
+
+    let phoneNumber=session.user
+    console.log(phoneNumber);
+
+    try {
+        let sql=await mssql.connect(config)
+
+        if (sql.connected) {
+            let response=await sql.query `EXEC users.GetUserIdByPhoneNumber 
+            @phoneNumber=${phoneNumber}`
+
+            const{recordset}=response
+            const{id}=recordset[0]
+            console.log(id);
+            
+
+
+            let results=await sql.query `EXEC users.CreatePost
+            @user_id=${id},
+            @content=${content},
+            @image_url=${image_url},
+            @video_url=${video_url}
+            `
+            if (results) {
+                res.json({
+                    success:true,
+                    message:'Post created Succesfully'
+                })
+                
+            } else {
+                res.status(400).json({
+                    success:false,
+                    message:"Failed tocreate post "
+                })
+                
+            }
+        } else {
+            res.status(500).send("internal server error")
+            
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Internal server error")
+        
+    }
+
+
+}
+
 async function likePost(req,res){
     let {postId,userId}=req.body
     try {
@@ -97,4 +149,4 @@ async function getPosts(req,res){
     }
 
 }
-module.exports={getPosts,likePost,commentPost,replyComment}
+module.exports={getPosts,likePost,commentPost,replyComment,createPost}
