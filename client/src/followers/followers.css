@@ -1,11 +1,12 @@
 .followers{
     margin-top: 30px;
-    margin-right: 20px;
+    margin-right: 10px;
     background-color: black;
     color: white;
     text-align: center;
     display: flex;
     flex-direction: column;
+    padding: 20px;
    
 }
 .followers>:firstChild{

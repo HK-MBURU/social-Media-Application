@@ -1,12 +1,30 @@
+const session = require("express-session");
+const express = require("express");
 const mssql = require("mssql");
 const bcrypt = require("bcrypt");
 const { newUserValidator } = require("../validataors/newUserValidator");
 const sendMail = require("../utils/sendMail");
 const crypto = require("crypto");
-const {app}=require("../server")
+const { app } = require("../server");
+
+app.use(express.json());
+const oneDay = 60 * 60 * 1000 * 24;
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+    genid: () => v4(),
+    cookie: {
+      httpOnly: true,
+      // secure:true
+      maxAge: oneDay,
+    },
+  })
+);
 
 async function signUp(req, res) {
-
   const user = req.body;
 
   let registrationDate = new Date();
@@ -16,7 +34,7 @@ async function signUp(req, res) {
 
     let hashedPwd = await bcrypt.hash(user.password, 8);
 
-    let pool=req.pool
+    let pool = req.pool;
 
     const token = crypto
       .randomBytes(48)
@@ -44,9 +62,17 @@ async function signUp(req, res) {
       const rowsAffected = results.rowsAffected[0];
 
       // send email
-      req.session.authorize=true
-      let phoneNumber=value.phoneNumber
-      req.session.user= phoneNumber
+      const authorization = async () => {
+        req.session.authorize = true;
+        
+        let phoneNumber = value.phoneNumber;
+        req.session.user = phoneNumber;
+        console.log(session);
+        console.log("Authorization went through");
+      };
+
+      await authorization();
+
       await sendMail(value.email, token);
 
       res.json({
@@ -65,12 +91,14 @@ async function changePassword(req, res) {
   const { userId, currentPassword, newPassword } = req.body;
 
   try {
-    const {pool}=app.locals.pool
+    const { pool } = app.locals.pool;
 
     if (pool.connected) {
-      const request=pool.request()
-      request.input("userId",mssql.Int,userId)
-      const result = await request.query("[dbo].[GetUserPasswordById] @userId=@userId");
+      const request = pool.request();
+      request.input("userId", mssql.Int, userId);
+      const result = await request.query(
+        "[dbo].[GetUserPasswordById] @userId=@userId"
+      );
 
       const user = result.recordset[0];
 
@@ -100,10 +128,12 @@ async function changePassword(req, res) {
       const hashedNewPassword = await bcrypt.hash(newPassword, 8);
 
       // Update the user's password in the database
-      const updateRequest=sql.request()
-      updateRequest.input("userId", mssql.Int, userId)
-      updateRequest.input("newPassword", mssql.VarChar(255), hashedNewPassword)
-      await updateRequest.query("EXEC [dbo].[ChangePassword] @userId=@userId, @newPassword=@newPassword" );
+      const updateRequest = sql.request();
+      updateRequest.input("userId", mssql.Int, userId);
+      updateRequest.input("newPassword", mssql.VarChar(255), hashedNewPassword);
+      await updateRequest.query(
+        "EXEC [dbo].[ChangePassword] @userId=@userId, @newPassword=@newPassword"
+      );
 
       res.json({
         success: true,

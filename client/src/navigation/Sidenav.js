@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Sidenav.css";
 import logo from "../images/hk.jpg";
 import HomeIcon from "@mui/icons-material/Home";
@@ -17,30 +17,54 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link, useNavigate } from "react-router-dom";
 import handleLogOut from "../logout/Logout";
 import PopUpModal from "../timeline/posts/PopUpModal";
-
-
-
-
+import axios from "axios";
+import user from "./user.jpg";
 
 function Sidenav() {
-  const [showModal,setShowModal]=useState(false)
+  const [showModal, setShowModal] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [fullNames, setFullNames] = useState("");
+  const [pic, setPic] = useState("");
 
-  const handleOpenModal=()=>{
-    setShowModal(true)
-  }
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  const handleCloseModal=()=>{
-    setShowModal(false)
-  }
-  let navigate=useNavigate()
-  function logout(){
-    handleLogOut()
-    navigate("/")
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:5050/profile");
+
+      setUserName(response.data.results[0].userName);
+      setFullNames(response.data.results[0].fullNames);
+      setPic(response.data.results[0].imgUrl);
+    } catch (error) {
+      console.log("Errror fetching profile:", error);
+    }
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  let navigate = useNavigate();
+  function logout() {
+    handleLogOut();
+    navigate("/");
   }
 
   return (
     <div className="sidenav">
-      <img className="sidenav__logo" src={logo} alt="" />
+      <Link to="/profile">
+        <div className="profile">
+          <img className="sidenav__logo" src={pic || user} alt="" />
+          <span>{userName}</span>
+          <p>{fullNames}</p>
+        </div>
+      </Link>
+
       <div className="sidenav__buttons">
         <button className="sidenav__button">
           <MenuIcon />
@@ -76,15 +100,13 @@ function Sidenav() {
             <span className="count">1</span>
             <span>Notifications</span>
           </button>
-        </Link >
-        
+        </Link>
+
         <button className="sidenav__button" onClick={handleOpenModal}>
           <PostAddIcon />
           <span>Post</span>
         </button>
-        <PopUpModal open={showModal} onClose={handleCloseModal}/>
-       
-        
+        <PopUpModal open={showModal} onClose={handleCloseModal} />
 
         <Link to="/profile">
           <button className="sidenav__button">

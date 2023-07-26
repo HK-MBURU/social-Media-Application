@@ -365,3 +365,96 @@ END;
 select * from users.posts
 
 
+CREATE PROCEDURE [dbo].[GetAllUsersInfo]
+AS
+BEGIN
+    SELECT
+        userName,
+        fullNames,
+        bio
+    FROM
+        users.UsersData;
+END;
+select* from users.UsersData;
+
+CREATE OR ALTER PROCEDURE [dbo].[GetUserProfileByUsername]
+    @Username NVARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @UserId INT;
+    DECLARE @imgUrl NVARCHAR(100); -- Declare the @imgUrl variable
+
+    -- Get the user's ID and profile picture from the UsersData table using the provided username
+    SELECT @UserId = id,
+           @imgUrl = imgUrl -- Assign the imgUrl to the @imgUrl variable
+    FROM users.UsersData
+    WHERE userName = @Username;
+
+    IF @UserId IS NULL
+    BEGIN
+        -- If the user is not found, return an empty result
+        SELECT 
+            UserName = '',
+            FullNames = '',
+            Bio = '',
+            Email = '',
+            ProfilePic = '',
+            Posts = CAST('[]' AS NVARCHAR(MAX));
+    END
+    ELSE
+    BEGIN
+        -- If the user is found, retrieve their profile information, profile picture, and posts
+        SELECT 
+            UserName,
+            FullNames,
+            Bio,
+            Email,
+            @imgUrl as ProfilePic, -- Include the @imgUrl variable in the result
+            Posts = (
+                SELECT 
+                    P.post_id,
+                    P.content,
+                    P.image_url,
+                    P.video_url,
+                    P.created_at,
+                    P.likes,
+                    P.comments,
+                    P.shares
+                FROM users.posts AS P
+                WHERE P.user_id = @UserId
+                FOR JSON AUTO
+            )
+        FROM users.UsersData
+        WHERE id = @UserId;
+    END
+END;
+
+CREATE PROCEDURE GetNotificationsByPhoneNumber
+  @phoneNumber VARCHAR(50)
+AS
+BEGIN
+  DECLARE @userId INT;
+
+  -- Get user_id from users.UsersData table based on phoneNumber
+  SELECT @userId = id
+  FROM users.UsersData
+  WHERE phoneNumber = @phoneNumber;
+
+  -- Get notifications and username for the user
+  SELECT
+    n.notification_id,
+    n.user_id,
+    u.fullNames AS username,
+    n.notification_type,
+    n.source_id,
+    n.is_read,
+    n.created_at
+  FROM notifications n
+  INNER JOIN users.UsersData u ON n.user_id = u.id
+  WHERE n.user_id = @userId
+  ORDER BY n.created_at DESC;
+END;
+
+

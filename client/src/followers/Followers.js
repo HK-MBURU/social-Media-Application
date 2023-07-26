@@ -25,8 +25,6 @@ function Followers() {
         <Follower />
         <Follower />
         <Follower />
-        <Follower />
-        <Follower />
       </div>
     </div>
   );

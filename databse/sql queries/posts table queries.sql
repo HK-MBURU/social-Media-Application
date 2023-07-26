@@ -62,7 +62,7 @@ EXEC InsertPost
 	END
 
 	--testing the procedure
-	EXEC InsertFollower @follower_id = 1, @following_id = 3;
+	EXEC InsertFollower @follower_id =3069, @following_id =3055;
 
 	SELECT * FROM users.UsersData
 	SELECT * FROM users.followers

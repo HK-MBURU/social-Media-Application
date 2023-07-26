@@ -4,6 +4,7 @@ import hk from "./1.jpg";
 import CommentForm from "./CommentForm";
 
 function Comment({
+  pic,
   comment,
   replies,
   currentUserId,
@@ -32,7 +33,7 @@ function Comment({
   return (
     <div className="comment">
       <div className="comment-image-container">
-        <img src={hk} alt="" />
+        <img src={pic} alt="" />
       </div>
       <div className="comment-right-part">
         <div className="comment-content">

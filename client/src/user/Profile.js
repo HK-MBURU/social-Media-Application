@@ -15,6 +15,35 @@ function Profile() {
   const [showUpdateBtn, setShowUpdateButton] = useState(false);
   const [showUpEditBtn, setShowEditButton] = useState(true);
   const[isEditable,setIsEditable]=useState(true)
+  const [profilePicture, setProfilePicture] = useState(null);
+
+  // error 
+  const [error, setError] = useState(null);
+  const[successMessage,setSuccessMessage]=useState("")
+  
+
+  const fileInputRef = React.createRef();
+
+  // uploading to cloudinary
+  const preset_key = "amodduyt";
+  const cloud_name = "dkpnavrhu";
+  
+
+  const  handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", preset_key);
+    axios
+      .post(
+        `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+        formData,{withCredentials:false},
+      )
+      .then((res) => setPic(res.data.secure_url))
+      .catch((err) => console.log(err));
+    setProfilePicture(file);
+    e.target.value = null;
+  };
 
   useEffect(()=>{
     fetchData()
@@ -41,20 +70,40 @@ function Profile() {
     setIsEditable(false)
     setShowUpdateButton(true);
     setShowEditButton(false);
-    submitHandler()
+    // submitHandler()
     console.log(bio);
   };
-  const showEdit = () => {
+  const showEdit =async () => {
+    try {
+      await updateProfileDeatils()
+      setSuccessMessage("Profile updated succesfully")
+    } catch (error) {
+      
+    }
     setIsEditable(true)
     setShowUpdateButton(false);
     setShowEditButton(true);
-    console.log(bio);
+    
   };
-
-  function submitHandler(event) {
-    // event.preventDefault();
+  const updateProfileDeatils=async()=>{
+    try {
+      const response=await axios.put("http://localhost:5050/updateProfile",formData,{withCredentials:true},)
+      console.log(response.data);
+    } catch (error) {
+      throw(error)
+      
+    }
 
   }
+  let imgUrl=pic
+  const formData={
+    fullNames,bio,imgUrl
+  }
+
+  // function submitHandler(event) {
+  //   event.preventDefault();
+
+  // }
   return (
     <div className="profile">
       <div className="header">
@@ -111,6 +160,7 @@ function Profile() {
                   type="file"
                   label="upload Profile Picture"
                   custom
+                  onChange={handleFileUpload}
                 ></Form.Control>}
               </Form.Group>
               {showUpdateBtn && (

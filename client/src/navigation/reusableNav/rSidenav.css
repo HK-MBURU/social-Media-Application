@@ -9,10 +9,26 @@
     
 }
 .sidenav_logo{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50px;
-    margin: 10px;
+    margin: 3px;
+}
+.profile-details{
+    display: flex;
+    flex-direction: row;
+}
+.profile-text{
+    display: flex;
+    flex-direction: column;
+}
+.profile-text span{
+    color: aliceblue;
+    font-size: 10px;
+}
+.profile-text p{
+    color: aliceblue;
+    /* font-size: 10px; */
 }
 .sidenav_buttons{
     

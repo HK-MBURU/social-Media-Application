@@ -73,7 +73,7 @@ function CreatePost() {
         alert("Upload first before creating post")
     }
     try {
-     console.log("Image url is: ", image);
+    //  console.log("Image url is: ", image);
       const postData = {
         content: postText,
         image_url:image,

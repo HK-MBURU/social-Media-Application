@@ -14,6 +14,8 @@ import UpdateProfile from './user/UpdateProfile'
 import ConfirmProfileUpdate from './user/ConfirmProfileUpdate'
 import axios from 'axios'
 import CreatePost from './timeline/posts/CreatePost'
+import UserProfile from './user/userProfile/UserProfile'
+
 
 
 
@@ -36,6 +38,7 @@ function App() {
       <Route path='/updateProfile' element={<UpdateProfile/>}></Route>
       <Route path='/confirmProfileUpdate' element={<ConfirmProfileUpdate/>}></Route>
       <Route path='/createPost' element={<CreatePost/>}></Route>
+      <Route path='/userProfile/:userName' element={<UserProfile/>}></Route>
 
     </Routes>
     

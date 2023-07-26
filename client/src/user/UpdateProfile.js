@@ -36,7 +36,7 @@ function UpdateProfile() {
     axios
       .post(
         `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
-        formData
+        formData,{withCredentials:false},
       )
       .then((res) => setImage(res.data.secure_url))
       .catch((err) => console.log(err));

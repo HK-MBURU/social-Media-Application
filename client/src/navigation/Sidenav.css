@@ -11,7 +11,13 @@
     border-radius: 50px;
     margin: 10px;
 }
+.profile{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
 .sidenav__buttons{
+    margin-top: -10px;
     display: flex;
     flex-direction: column;
 }

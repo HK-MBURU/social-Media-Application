@@ -23,7 +23,8 @@ function Signup() {
     try {
       await signUpUser();
       setSuccessMessage("Sign up succesful proceed to login")
-      navigate("/confirmProfileUpdate");
+      alert({successMessage})
+      navigate("/");
     } catch (error) {
       if (
         error.response &&
@@ -41,7 +42,7 @@ function Signup() {
     try {
       const response = await axios.post(
         "http://localhost:4040/signup",
-        formData,{withCredentials:true}
+        formData
       );
       console.log(response.data);
     } catch (error) {

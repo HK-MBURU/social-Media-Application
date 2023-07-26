@@ -11,6 +11,7 @@ import Comments from "./posts/comments/Comments";
 import Header from "../header/Header";
 import Search from "../search/Search";
 import axios from "axios";
+import Follower from "../followers/Follower";
 // import { post } from "../../../server/auth/src/routes/signupRoute";
 
 function Timeline() {
@@ -30,15 +31,13 @@ function Timeline() {
   return (
     <div className="timeline">
       <div className="headers">
-        <div>
-          
-        </div>
-        <div className="search">
-          <Search />
-        </div>
+        <div></div>
       </div>
 
       <div className="timeline__left">
+        <div className="search">
+          <Search />
+        </div>
         <div className="timeline__posts">
           {posts.map((post) => {
             return (
@@ -49,13 +48,23 @@ function Timeline() {
                 likes={post.likes}
                 timestamp={post.created_at}
                 content={post.content}
+                profilePic={post.userImageUrl}
               />
             );
           })}
         </div>
       </div>
       <div className="timeline__right">
-        <Suggestion />
+        <div className="suggestion-area">
+          <Suggestion />
+        </div>
+        {/* <div className="follower-area">
+          <h5>Your followers</h5>
+          <Follower />
+          <Follower />
+          <Follower />
+          <Follower />
+        </div> */}
       </div>
     </div>
   );

@@ -4,10 +4,11 @@ const { request } = require('express')
 
 async function createPost(req,res){
     const{session}=req
+    let phoneNumber=session.user
     const {  content, image_url, video_url } = req.body;
 
-    let phoneNumber=session.user
-    console.log(phoneNumber);
+    // let phoneNumber=session.user
+    // console.log(phoneNumber);
 
     try {
         let sql=await mssql.connect(config)
@@ -56,10 +57,12 @@ async function createPost(req,res){
 
 async function likePost(req,res){
     let {postId,userId}=req.body
+    const{session}=req
+    let phoneNumber=session.user
     try {
         let sql=await mssql.connect(config)
     if(sql.connected){
-        let results=await sql.query(`EXECUTE insert_like @post_id = ${postId}, @user_id = ${userId}`)
+        let results=await sql.query(`EXECUTE insert_like @post_id = ${postId}, @phoneNumber = ${phoneNumber}`)
         let like=results.recordset
 
         res.json({
