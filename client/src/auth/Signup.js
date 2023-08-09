@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import ProgressBarExample from "./progressBar/ProgressBarExample";
 
 function Signup() {
   const navigate = useNavigate();
@@ -12,8 +13,11 @@ function Signup() {
     password: "",
     confirmPassword: "",
   });
+  const [progress, setProgress] = useState(3);
+  const[buttonText,setButtonText]=useState("SignUp")
+  const[isProgressing,setIsprogressing]=useState(false)
   const [error, setError] = useState(null);
-  const[successMessage,setSuccessMessage]=useState("")
+  const [successMessage, setSuccessMessage] = useState("");
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -22,10 +26,19 @@ function Signup() {
     e.preventDefault();
     try {
       await signUpUser();
-      setSuccessMessage("Sign up succesful proceed to login")
-      alert({successMessage})
+      
+      for (let i = 0; i < 100; i+=10) {
+        setProgress(i);
+        
+
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+
+      setSuccessMessage("Sign up succesful proceed to login");
+
       navigate("/");
     } catch (error) {
+      setButtonText(`Sign up again`)
       if (
         error.response &&
         error.response.data &&
@@ -38,7 +51,13 @@ function Signup() {
       console.log("error occured during signup:", error);
     }
   };
+
+  useEffect(() => {}, [progress,buttonText]);
+
   async function signUpUser() {
+    setIsprogressing(true)
+    setButtonText("Signing up please wait....")
+    // let isButtonDisabled=true
     try {
       const response = await axios.post(
         "http://localhost:4040/signup",
@@ -47,28 +66,39 @@ function Signup() {
       console.log(response.data);
     } catch (error) {
       throw error;
-      
     }
   }
 
-  const isButtonDisabled =
-    Object.values(formData).some((value) => value === "") //|| error;
-    const inputError=error
-    let text=""
-    if(isButtonDisabled){
-        text="Please fill all fields to signup"        
-    }else if(error){
-        text=error//"Error in your inputs ensure your have a unique username, email and phone number"
-    }else{
-        text=successMessage
-    }
-
+  const isButtonDisabled = Object.values(formData).some(
+    (value) => value === ""
+  ); //|| error;
+  const inputError = error;
+  let text = "";
+  if (isButtonDisabled) {
+    text = "Please fill all fields to signup";
+  } else if (error) {
+    text = error; //"Error in your inputs ensure your have a unique username, email and phone number"
+  } else {
+    text = successMessage;
+  }
+  console.log(progress);
 
   return (
     <div className="signup template d-flex justify-content-center align-items-center  vh-100 bg-secondary">
+      {/* <ProgressBarExample percentage={progress}/> */}
+      
       <div className="form_container p-2 rounded bg-dark ">
         {/* {error && <div className="alert alert-danger text-small">{error}</div>} */}
         <form action="" onSubmit={handleSubmit}>
+        <div
+        style={{
+          width: `${progress}%`,
+          height: "20px",
+          backgroundColor: "blue",
+          color:"white"
+        }}
+      ></div>
+      {isProgressing &&<p style={{marginTop:"-21px"}}>Please Wait as you are signed up {progress}%</p>}
           <h3 className="text-center">Sign Up Page</h3>
 
           <div className="mb-2">
@@ -139,25 +169,26 @@ function Signup() {
           </div>
 
           <div className="d-grid mt-2">
-            <div className="d-grid mt-2"
-            title={isButtonDisabled ?"Fill all details before signing up" :""}>
-                
+            <div
+              className="d-grid mt-2"
+              title={
+                isButtonDisabled ? "Fill all details before signing up" : ""
+              }
+            >
               <button
                 className="btn btn-success"
                 type="submit"
-                disabled={isButtonDisabled}
+                disabled={isButtonDisabled ?isButtonDisabled:isProgressing}
+                
                 title={
                   isButtonDisabled
                     ? "Please fill all details before signing up"
                     : ""
                 }
               >
-                Sign Up
+                {buttonText}
               </button>
-              <p className="text-danger small">
-              {text }
-                </p>
-              
+              <p className="text-danger small">{text}</p>
             </div>
           </div>
           <p className="text-end mt-2">

@@ -15,10 +15,8 @@ import ConfirmProfileUpdate from './user/ConfirmProfileUpdate'
 import axios from 'axios'
 import CreatePost from './timeline/posts/CreatePost'
 import UserProfile from './user/userProfile/UserProfile'
-
-
-
-
+import ProgressBar from './auth/progressBar/ProgressBar'
+import ProgressBarExample from './auth/progressBar/ProgressBarExample'
 
 
 
@@ -39,6 +37,7 @@ function App() {
       <Route path='/confirmProfileUpdate' element={<ConfirmProfileUpdate/>}></Route>
       <Route path='/createPost' element={<CreatePost/>}></Route>
       <Route path='/userProfile/:userName' element={<UserProfile/>}></Route>
+      <Route path='/progressBar' element={<ProgressBarExample/>}></Route>
 
     </Routes>
     
