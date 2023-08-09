@@ -15,26 +15,26 @@ skills you have learnt over the past eight weeks and gain more.
 allowed). It is expected that you will produce an attractive, 
 consistent, concise, and responsive User Interface for your project.
 
-**Backend **
+**Backend ✅**
   – The backend should be built on Express/node following a 
 microservice architecture.
 
-**Database **
+**Database ✅**
 – The to be used is SQL Server (MsSQL). The use of stored 
 procedures, views, CTEs (Common Table Expressions) and functions is 
 highly encouraged.
 
-**Photos/videos**
+**Photos/videos✅**
 - For images and videos(optional) you will need to use 
 Cloudinary to manage them which provides a free tier.
 
 **Features**
-**1. Sign Up**
+**1. Sign Up✅**
 – The platform should provide a signup form for users to 
 register. Users' data should be validated appropriately (You can also 
 use OAuth like google, Facebook or GitHub for sign up - optional).
 
-**2. Log in**
+**2. Log in✅**
 – Users should be able to log in before they proceed to any 
 other pages on the site. User feedback should be a priority (ensure 
 proper error/response messages are shown)
@@ -43,7 +43,7 @@ proper error/response messages are shown)
 – This is the page the user gets directed to after login. From 
 here users can: 
 a. Navigate to profile page where they can edit their profile 
-including profile pictures.
+including profile pictures✅.
 b. Scroll through a list of posts from people they follow (Here they
 can comment on posts and/or like them).
 c. Navigate to a page that shows my posts.
@@ -69,7 +69,7 @@ follow, and they have an option to unfollow them.
 – This will be used to search for users using their 
 username.
 
-**8. Create post page**
+**8. Create post page✅**
 – This is the page that will allow users to create 
 posts.
 
